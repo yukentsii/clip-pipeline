@@ -1,0 +1,6 @@
+<resources>
+    <color name="background">#0C0D0E</color>
+    <color name="card">#15171A</color>
+    <color name="track">#1E2125</color>
+    <color name="accent">#F3EFE6</color>
+</resources>

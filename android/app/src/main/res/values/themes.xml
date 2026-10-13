@@ -1,0 +1,20 @@
+<resources>
+    <style name="Theme.ClipPipeline" parent="android:Theme.Material.NoActionBar">
+        <item name="android:windowBackground">@color/background</item>
+        <item name="android:statusBarColor">@android:color/transparent</item>
+        <item name="android:navigationBarColor">@android:color/transparent</item>
+        <!-- The phone's own date and time pickers take the file's colours from here. -->
+        <item name="android:colorAccent">@color/accent</item>
+        <item name="android:colorBackgroundFloating">@color/card</item>
+        <item name="android:datePickerDialogTheme">@style/Theme.ClipPipeline.Picker</item>
+        <item name="android:timePickerDialogTheme">@style/Theme.ClipPipeline.Picker</item>
+    </style>
+
+    <style name="Theme.ClipPipeline.Picker" parent="android:Theme.Material.Dialog.Alert">
+        <item name="android:colorAccent">@color/accent</item>
+        <item name="android:colorPrimary">@color/track</item>
+        <item name="android:colorBackgroundFloating">@color/card</item>
+        <item name="android:windowBackground">@drawable/picker_background</item>
+        <item name="android:textColorPrimaryInverse">@color/background</item>
+    </style>
+</resources>

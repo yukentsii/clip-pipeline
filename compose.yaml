@@ -1,0 +1,46 @@
+# docker compose up -d --build        start (or update) the service
+# docker compose logs -f              watch it work
+# docker compose exec clip-pipeline python -m clip_pipeline pair      pair a phone
+services:
+  clip-pipeline:
+    build: .
+    image: clip-pipeline
+    restart: unless-stopped
+    # Settings and logins. Copy .env.example to .env first. DATA_DIR, BIND_HOST and PORT are set by
+    # the image and should not be in .env when running in Docker.
+    env_file: .env
+    environment:
+      DATA_DIR: /data
+      BIND_HOST: 0.0.0.0
+      PORT: "8000"
+      # The address a phone should open, written into the pairing QR code:
+      # PUBLIC_URL: http://192.168.1.20:8000
+    volumes:
+      # The one place the service keeps anything. Drop videos into ./data/inbox on the host.
+      - ./data:/data
+    ports:
+      # Reachable from this machine only. To reach it from a phone on your private network, replace
+      # 127.0.0.1 with this machine's private address (or remove it to listen on every interface).
+      - "127.0.0.1:8000:8000"
+    # Give a long render time to finish; unfinished work resumes on the next start either way.
+    stop_grace_period: 30s
+
+    # --- hardware video encoding (optional; software encoding is used when none of this is set) ---
+    # Intel / AMD (VAAPI):
+    # devices:
+    #   - /dev/dri:/dev/dri
+    # group_add:
+    #   - "video"
+    #   - "render"
+    # NVIDIA (needs the NVIDIA container toolkit on the host):
+    # deploy:
+    #   resources:
+    #     reservations:
+    #       devices:
+    #         - driver: nvidia
+    #           count: 1
+    #           capabilities: [gpu, video]
+
+    # --- keep it from crowding the rest of the machine (optional) ---
+    # cpus: "6"
+    # mem_limit: 6g

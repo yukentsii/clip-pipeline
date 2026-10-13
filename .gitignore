@@ -1,0 +1,48 @@
+# ---- Secrets: never commit ----
+.env
+.env.*
+!.env.example
+client_secret*.json
+*.token.json
+*_state.json
+*.pem
+*.key
+
+# ---- Runtime data: database, working files, inbox, saved logins, downloaded models ----
+data/
+models/
+
+# ---- Media and intermediates ----
+*.mp4
+*.mkv
+*.mov
+*.webm
+*.opus
+*.m4a
+*.wav
+*.ass
+*.part
+*.ytdl
+*.db
+*.db-wal
+*.db-shm
+
+# ---- Python ----
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.venv/
+venv/
+*.egg-info/
+
+# ---- Personal notes and local tooling ----
+should be fixed things.txt
+would be good to have things.txt
+.claude/
+.mcp.json
+
+# ---- OS / editor ----
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/

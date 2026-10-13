@@ -1,0 +1,7 @@
+# Only requirements.txt and clip_pipeline/ are needed to build. Keep everything else, above all
+# secrets and data, out of the build context so it can never end up in an image layer.
+*
+!requirements.txt
+!clip_pipeline/
+clip_pipeline/**/__pycache__/
+**/*.pyc

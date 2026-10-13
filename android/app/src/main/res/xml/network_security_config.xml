@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  Plain HTTP is permitted here because the server's address is only known once the phone has paired,
+  and this file is fixed when the app is built (it cannot name a host chosen at run time, nor an
+  address range). The real rule lives in net/CleartextGuard: the app's one HTTP client refuses any
+  plain-HTTP request whose host and port are not the paired server's. Nothing else in the app makes
+  network requests.
+-->
+<network-security-config>
+    <base-config cleartextTrafficPermitted="true" />
+</network-security-config>
