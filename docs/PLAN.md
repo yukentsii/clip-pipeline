@@ -130,9 +130,11 @@ Each step ends with the test suite green and a real run where possible.
       what git would upload (69 files) and scanning them.
 - [x] README, CI running the tests on Linux.
 - [x] Licence: MIT, held by "clip-pipeline contributors".
-- Not verified yet (the owner chose to wait for the first GitHub push): the image has not been built and
-  the tests have not been run on Linux (no Docker on the
-  development laptop). VAAPI, NVENC and Quick Sync could only be tested as far as building their commands;
+- Verified 2026-10-13 on GitHub (public repository `yukentsii/clip-pipeline`): the tests pass on Linux, and
+  the image builds, reports healthy, answers `/health`, refuses unsigned requests, and has ffmpeg, the
+  caption font and the heavy Python packages inside. Every push repeats both checks.
+- Not verified yet: a real video processed inside the container, and data kept across a restart through
+  the `./data` mount. VAAPI, NVENC and Quick Sync could only be tested as far as building their commands;
   on the laptop only AMF passes its test encode.
 
 ### Fixes after the first real phone test (2026-10-13)
