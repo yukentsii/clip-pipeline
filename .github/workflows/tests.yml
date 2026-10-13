@@ -9,8 +9,8 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 20
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-python@v5
+      - uses: actions/checkout@v5
+      - uses: actions/setup-python@v6
         with:
           python-version: "3.11"
           cache: pip
@@ -20,3 +20,31 @@ jobs:
         run: pip install -r requirements.txt
       - name: Tests
         run: python -m pytest
+
+  docker:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v5
+      - name: Build the image
+        run: docker build -t clip-pipeline .
+      - name: Start it and wait until it reports healthy
+        run: |
+          docker run -d --name clip -p 127.0.0.1:8000:8000 clip-pipeline
+          for i in $(seq 1 40); do
+            state=$(docker inspect -f '{{.State.Health.Status}}' clip)
+            [ "$state" = "healthy" ] && break
+            sleep 3
+          done
+          docker logs clip
+          [ "$state" = "healthy" ]
+      - name: It answers from outside and refuses unsigned requests
+        run: |
+          curl -fsS http://127.0.0.1:8000/health
+          [ "$(curl -s -o /dev/null -w '%{http_code}' http://127.0.0.1:8000/clips)" = "401" ]
+      - name: Tools inside the image
+        run: |
+          docker exec clip python -m clip_pipeline status
+          docker exec clip ffmpeg -hide_banner -version | head -1
+          docker exec clip fc-match Arial
+          docker exec clip python -c "import faster_whisper, mediapipe, cv2, av, playwright; print('imports ok')"
